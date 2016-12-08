@@ -22,7 +22,7 @@ int main(int argc, const char * argv[]) {
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             if(bombes_placees < BOMBES){
-                tableau_complet[i][j] = 1;
+                tableau_complet[i][j] = 9;
                 bombes_placees++;
                 max_colonne = i;
                 max_ligne = j;
@@ -38,6 +38,20 @@ int main(int argc, const char * argv[]) {
             var_temp = tableau_complet[i_alea][j_alea];
             tableau_complet[i_alea][j_alea] = tableau_complet[i][j];
             tableau_complet[i][j] = var_temp;
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if(tableau_complet[i][j] == 9){
+                if(tableau_complet[i-1][j] != 9 && (i-1) >= 0) tableau_complet[i-1][j]++;
+                if(tableau_complet[i-1][j-1] != 9 && (i-1) >= 0 && (j-1) > 0) tableau_complet[i-1][j-1]++;
+                if(tableau_complet[i-1][j+1] != 9 && (i-1) >= 0 && (j+1) < N) tableau_complet[i-1][j+1]++;
+                if(tableau_complet[i][j-1] != 9 && (j-1) >= 0) tableau_complet[i][j-1]++;
+                if(tableau_complet[i][j+1] != 9 && (j+1) < N) tableau_complet[i][j+1]++;
+                if(tableau_complet[i+1][j] != 9 && (i+1) < N) tableau_complet[i+1][j]++;
+                if(tableau_complet[i+1][j-1] != 9 && (i+1) < N && (j-1) >= 0) tableau_complet[i+1][j-1]++;
+                if(tableau_complet[i+1][j+1] != 9 && (i+1) < N && (j+1) < N) tableau_complet[i+1][j+1]++;
+            }
         }
     }
     afficher_tableau(tableau_complet);
