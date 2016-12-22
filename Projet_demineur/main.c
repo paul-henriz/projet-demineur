@@ -10,14 +10,14 @@
 #include <stdlib.h>
 #include <time.h>
 #define N 20
-#define BOMBES 0
+#define BOMBES 20
 
 void afficher_tableau_entier(int a[N][N]);
 void afficher_tableau_char(char a[N][N]);
 
 int main(int argc, const char * argv[]) {
     int tableau_complet[N][N];
-    int bombes_placees = 0, max_colonne = 0, max_ligne = 0, x, y, tentative = 0;
+    int bombes_placees = 0, max_colonne = 0, max_ligne = 0, x, y, tentative = 0, perdu = 0;
     char tableau_user[N][N];
     time_t t;
     srand((unsigned) time(&t));
@@ -57,8 +57,8 @@ int main(int argc, const char * argv[]) {
             }
         }
     }
+    afficher_tableau_char(tableau_user);
     do {
-        afficher_tableau_char(tableau_user);
         printf("Quelle case souhaitez-vous découvrir ?\n");
         scanf("%d %d", &x, &y);
         switch (tableau_complet[x][y]) {
@@ -91,17 +91,19 @@ int main(int argc, const char * argv[]) {
                 break;
             case 9:
                 tableau_user[x][y] = 'O';
-                return 1;
+                perdu = 1;
             default:
                 break;
         }
         tentative++;
-        printf("\n\n");
+        afficher_tableau_char(tableau_user);
+        printf("\n");
         //afficher_tableau_entier(tableau_complet);
         //printf("\n\n");
-    } while (tentative < BOMBES);
+    } while ((N*N) - tentative != BOMBES && perdu != 1);
     
-    printf("Félicitations, vous avez gagné !\n");
+    if(perdu == 0)printf("Félicitations, vous avez gagné !\n");
+    else printf("Vous avez perdu :(\n");
     //afficher_tableau_entier(tableau_complet);
     //afficher_tableau_char(tableau_user);
     return 0;
