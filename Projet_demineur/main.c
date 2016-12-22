@@ -10,13 +10,15 @@
 #include <stdlib.h>
 #include <time.h>
 #define N 20
-#define BOMBES 20
+#define BOMBES 0
 
-void afficher_tableau(int a[N][N]);
+void afficher_tableau_entier(int a[N][N]);
+void afficher_tableau_char(char a[N][N]);
 
 int main(int argc, const char * argv[]) {
     int tableau_complet[N][N];
-    int bombes_placees = 0, max_colonne = 0, max_ligne = 0;
+    int bombes_placees = 0, max_colonne = 0, max_ligne = 0, x, y, tentative = 0;
+    char tableau_user[N][N];
     time_t t;
     srand((unsigned) time(&t));
     for(int i = 0; i < N; i++){
@@ -28,6 +30,7 @@ int main(int argc, const char * argv[]) {
                 max_ligne = j;
             }
             else tableau_complet[i][j] = 0;
+            tableau_user[i][j] = 'X';
         }
     }
     for (int i = 0; i <= max_colonne; i++){
@@ -54,14 +57,68 @@ int main(int argc, const char * argv[]) {
             }
         }
     }
-    afficher_tableau(tableau_complet);
+    do {
+        afficher_tableau_char(tableau_user);
+        printf("Quelle case souhaitez-vous découvrir ?\n");
+        scanf("%d %d", &x, &y);
+        switch (tableau_complet[x][y]) {
+            case 0:
+                tableau_user[x][y] = '0';
+                break;
+            case 1:
+                tableau_user[x][y] = '1';
+                break;
+            case 2:
+                tableau_user[x][y] = '2';
+                break;
+            case 3:
+                tableau_user[x][y] = '3';
+                break;
+            case 4:
+                tableau_user[x][y] = '4';
+                break;
+            case 5:
+                tableau_user[x][y] = '5';
+                break;
+            case 6:
+                tableau_user[x][y] = '6';
+                break;
+            case 7:
+                tableau_user[x][y] = '7';
+                break;
+            case 8:
+                tableau_user[x][y] = '8';
+                break;
+            case 9:
+                tableau_user[x][y] = 'O';
+                return 1;
+            default:
+                break;
+        }
+        tentative++;
+        printf("\n\n");
+        //afficher_tableau_entier(tableau_complet);
+        //printf("\n\n");
+    } while (tentative < BOMBES);
+    
+    printf("Félicitations, vous avez gagné !\n");
+    //afficher_tableau_entier(tableau_complet);
+    //afficher_tableau_char(tableau_user);
     return 0;
 }
 
-void afficher_tableau(int a[N][N]){
+void afficher_tableau_entier(int a[N][N]){
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             printf("%d ", a[i][j]);
+        }
+        printf("\n");
+    }
+}
+void afficher_tableau_char(char a[N][N]){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            printf("%c ", a[i][j]);
         }
         printf("\n");
     }
